@@ -1,7 +1,9 @@
 package com.epam.gymcrm.service;
 
 import com.epam.gymcrm.dao.TraineeDao;
+import com.epam.gymcrm.dao.TrainerDao;
 import com.epam.gymcrm.model.Trainee;
+import com.epam.gymcrm.model.Trainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +15,18 @@ import java.util.stream.Collectors;
 public class TraineeService {
 
     private TraineeDao traineeDao;
+    private TrainerDao trainerDao;
     private UsernameGenerator usernameGenerator;
     private PasswordGenerator passwordGenerator;
 
     @Autowired
     public void setTraineeDao(TraineeDao traineeDao) {
         this.traineeDao = traineeDao;
+    }
+
+    @Autowired
+    public void setTrainerDao(TrainerDao trainerDao) {
+        this.trainerDao = trainerDao;
     }
 
     @Autowired
@@ -45,7 +53,10 @@ public class TraineeService {
                 .stream()
                 .map(Trainee::getUsername)
                 .collect(Collectors.toList());
-
+        existingUsernames.addAll(trainerDao.findAll()
+                .stream()
+                .map(Trainer::getUsername)
+                .toList());
         return usernameGenerator.generateUsername(
                 trainee.getFirstName(),
                 trainee.getLastName(),

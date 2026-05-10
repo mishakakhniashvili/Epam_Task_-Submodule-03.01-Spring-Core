@@ -3,6 +3,7 @@ package com.epam.gymcrm.model;
 import java.time.LocalDate;
 
 public class Training {
+    private Long trainingId;
     private Long traineeId;
     private Long trainerId;
     private String trainingName;
@@ -10,12 +11,14 @@ public class Training {
     private LocalDate trainingDate;
     private Integer trainingDuration;
 
-    public Training(Long traineeId,
+    public Training(Long trainingId,
+                    Long traineeId,
                     Long trainerId,
                     String trainingName,
                     TrainingType trainingType,
                     LocalDate trainingDate,
                     Integer trainingDuration) {
+        this.trainingId = trainingId;
         this.traineeId = traineeId;
         this.trainerId = trainerId;
         this.trainingName = trainingName;
@@ -72,5 +75,13 @@ public class Training {
 
     public void setTrainingDuration(Integer trainingDuration) {
         this.trainingDuration = trainingDuration;
+    }
+
+    public Long getTrainingId() {
+        return trainingId;
+    }
+
+    public void setTrainingId(Long trainingId) {
+        this.trainingId = trainingId;
     }
 }

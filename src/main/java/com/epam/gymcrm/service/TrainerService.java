@@ -4,6 +4,8 @@ import com.epam.gymcrm.dao.TraineeDao;
 import com.epam.gymcrm.dao.TrainerDao;
 import com.epam.gymcrm.model.Trainee;
 import com.epam.gymcrm.model.Trainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class TrainerService {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(TrainerService.class);
     private TrainerDao trainerDao;
     private TraineeDao traineeDao;
     private UsernameGenerator usernameGenerator;
@@ -45,20 +47,26 @@ public class TrainerService {
         trainer.setPassword(passwordGenerator.generatePassword());
         trainer.setActive(true);
 
+        LOGGER.info("Creating trainer with id={} and username={}", trainer.getUserId(), trainer.getUsername());
+
         return trainerDao.save(trainer);
     }
 
     public Trainer update(Trainer trainer) {
+        LOGGER.info("Updating trainer with id={}", trainer.getUserId());
         return trainerDao.update(trainer);
     }
 
     public Optional<Trainer> findById(Long userId) {
+        LOGGER.info("Finding trainer with id={}", userId);
         return trainerDao.findById(userId);
     }
 
     public List<Trainer> findAll() {
+        LOGGER.info("finding all trainers");
         return trainerDao.findAll();
     }
+
 
     //finds the largest id and creates the next one by adding 1
     private Long generateNextId() {
@@ -79,6 +87,7 @@ public class TrainerService {
                 .stream()
                 .map(Trainee::getUsername)
                 .toList());
+
         return usernameGenerator.generateUsername(
                 trainer.getFirstName(),
                 trainer.getLastName(),

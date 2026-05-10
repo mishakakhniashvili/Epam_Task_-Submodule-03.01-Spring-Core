@@ -6,7 +6,8 @@ import com.epam.gymcrm.model.Trainee;
 import com.epam.gymcrm.model.Trainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,7 +19,7 @@ public class TraineeService {
     private TrainerDao trainerDao;
     private UsernameGenerator usernameGenerator;
     private PasswordGenerator passwordGenerator;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(TraineeService.class);
     @Autowired
     public void setTraineeDao(TraineeDao traineeDao) {
         this.traineeDao = traineeDao;
@@ -44,6 +45,9 @@ public class TraineeService {
         trainee.setUsername(generateUsername(trainee));
         trainee.setPassword(passwordGenerator.generatePassword());
         trainee.setActive(true);
+
+        LOGGER.info("Creating trainee with id={} and username={}", trainee.getUserId(), trainee.getUsername());
+
         return traineeDao.save(trainee);
     }
 
@@ -57,6 +61,7 @@ public class TraineeService {
                 .stream()
                 .map(Trainer::getUsername)
                 .toList());
+
         return usernameGenerator.generateUsername(
                 trainee.getFirstName(),
                 trainee.getLastName(),
@@ -75,14 +80,17 @@ public class TraineeService {
     }
 
     public Trainee update(Trainee trainee) {
+        LOGGER.info("Updating trainee with id={}", trainee.getUserId());
         return traineeDao.update(trainee);
     }
 
     public void deleteById(Long userId) {
+        LOGGER.info("Deleting trainee with id={}", userId);
         traineeDao.deleteById(userId);
     }
 
     public Optional<Trainee> findById(Long userId) {
+        LOGGER.info("finding trainee with id={}", userId);
         return traineeDao.findById(userId);
     }
 

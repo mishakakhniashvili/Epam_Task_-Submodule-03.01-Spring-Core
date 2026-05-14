@@ -4,15 +4,13 @@ import com.epam.gymcrm.dao.TraineeDao;
 import com.epam.gymcrm.dao.TrainerDao;
 import com.epam.gymcrm.model.Trainee;
 import com.epam.gymcrm.model.Trainer;
-import com.epam.gymcrm.model.Training;
-import com.epam.gymcrm.model.TrainingType;
+
 import com.epam.gymcrm.storage.Storage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

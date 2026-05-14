@@ -55,9 +55,7 @@ public class GymCrmApplication {
         Training createdTraining = gymFacade.createTraining(training);
 
         System.out.println("Created trainee username: " + createdTrainee.getUsername());
-        System.out.println("Created trainee password: " + createdTrainee.getPassword());
         System.out.println("Created trainer username: " + createdTrainer.getUsername());
-        System.out.println("Created trainer password: " + createdTrainer.getPassword());
         System.out.println("Created training ID: " + createdTraining.getTrainingId());
 
         context.close();

@@ -4,6 +4,8 @@ import com.epam.gymcrm.model.Trainee;
 import com.epam.gymcrm.model.Trainer;
 import com.epam.gymcrm.model.Training;
 import com.epam.gymcrm.model.TrainingType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -17,6 +19,8 @@ import java.time.LocalDate;
 
 @Component
 public class StorageInitializer implements BeanPostProcessor {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(StorageInitializer.class);
 
     private final String initFilePath;
 
@@ -34,6 +38,8 @@ public class StorageInitializer implements BeanPostProcessor {
     }
 
     private void loadData(Storage storage) {
+        LOGGER.info("Loading initial storage data from file: {}", initFilePath);
+
         ClassPathResource resource = new ClassPathResource(initFilePath);
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream()))) {
@@ -41,7 +47,10 @@ public class StorageInitializer implements BeanPostProcessor {
                     .filter(line -> !line.isBlank())
                     .filter(line -> !line.startsWith("#"))
                     .forEach(line -> loadLine(line, storage));
+
+            LOGGER.info("Initial storage data loaded successfully from file: {}", initFilePath);
         } catch (IOException e) {
+            LOGGER.error("Could not load initial storage data from file: {}", initFilePath, e);
             throw new IllegalStateException("Could not load initial storage data from file: " + initFilePath, e);
         }
     }

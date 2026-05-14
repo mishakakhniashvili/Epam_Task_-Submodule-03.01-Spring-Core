@@ -1,0 +1,4 @@
+TRAINING_TYPE|Fitness
+TRAINEE|1|John|Smith|2000-01-01|Tbilisi
+TRAINER|1|Mike|Brown|Fitness
+TRAINING|1|1|1|Morning Training|Fitness|2026-05-10|60
